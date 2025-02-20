@@ -4,7 +4,7 @@
   
   # Welcome to Mobile Byte Sensei
   
-   **Your Gateway to Mastering Android Development!** 
+   **_Your Gateway to Mastering Android Development!_** 
 
   At Mobile Byte Sensei, we are passionate about empowering individuals and businesses to excel in the world of Android development. Our industry-grade courses are designed to equip you with the skills and knowledge needed to create innovative, high-quality Android applications. Whether you're a beginner or an experienced developer, we provide the tools and guidance to help you succeed.
 </div>
@@ -44,12 +44,9 @@
 ✅ **Supportive Community:** Join a network of learners and mentors for collaboration and growth.  
 ✅ **Affordable and Accessible:** High-quality education at competitive prices.  
 
----
-
 ## **Our Mission:**  
 To democratize Android development education and empower individuals and businesses to create impactful, user-friendly apps that solve real-world problems.  
 
----
 
 **Join Mobile Byte Sensei Today!**  
 Whether you're looking to start a career in Android development, enhance your skills, or train your team, we’re here to help you succeed. Let’s build the future of mobile apps together!  
