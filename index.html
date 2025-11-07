@@ -104,30 +104,6 @@
             overflow: hidden;
         }
 
-        .file-viewer-header {
-            padding: 24px 32px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .file-viewer-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .file-viewer-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
         .file-viewer-body {
             padding: 40px;
             min-height: 400px;
@@ -665,31 +641,8 @@
 </head>
 <body>
     <div id="fileViewerMode" style="display: none;">
-        <header>
-            <div class="header-content">
-                <a href="index.html" class="back-button">
-                    ← Back to Files
-                </a>
-                <h1 id="fileViewerTitle">📱 MobileByteSensei</h1>
-            </div>
-        </header>
-
-        <div class="container main-content">
+        <div class="container" style="padding: 40px 20px;">
             <div id="fileViewerContainer" class="file-viewer">
-                <div class="file-viewer-header">
-                    <div class="file-viewer-title">
-                        <span id="fileIconViewer"></span>
-                        <span id="fileNameViewer"></span>
-                    </div>
-                    <div class="file-viewer-actions">
-                        <button class="share-button" onclick="shareCurrentPage()">
-                            📋 Copy Link
-                        </button>
-                        <a id="githubLinkViewer" class="btn btn-secondary" href="#" target="_blank">
-                            🔗 View on GitHub
-                        </a>
-                    </div>
-                </div>
                 <div class="file-viewer-body">
                     <div id="loadingViewer" class="loading">
                         <div class="spinner"></div>
@@ -760,10 +713,6 @@
         </footer>
     </div>
 
-    <div class="share-notification" id="shareNotification">
-        ✓ Link copied to clipboard!
-    </div>
-
     <script>
         const REPO_OWNER = 'mobilebytesensei';
         const REPO_NAME = '.github';
@@ -819,19 +768,24 @@
             return filename.split('.').pop().toLowerCase();
         }
 
-        function getFileUrl(filePath) {
-            return `index.html?file=${encodeURIComponent(filePath)}`;
+        function toCamelCase(filename) {
+            // Remove file extension
+            const nameWithoutExt = filename.substring(0, filename.lastIndexOf('.')) || filename;
+            
+            // Split by common separators (-, _, space)
+            const words = nameWithoutExt.split(/[-_\s]+/);
+            
+            // Convert to camel case
+            return words.map((word, index) => {
+                if (index === 0) {
+                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                }
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            }).join(' ');
         }
 
-        function shareCurrentPage() {
-            const url = window.location.href;
-            navigator.clipboard.writeText(url).then(() => {
-                const notification = document.getElementById('shareNotification');
-                notification.style.display = 'block';
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3000);
-            });
+        function getFileUrl(filePath) {
+            return `index.html?file=${encodeURIComponent(filePath)}`;
         }
 
         async function fetchAllFiles(path = '') {
@@ -875,12 +829,10 @@
 
                 const ext = getFileExtension(fileData.name);
                 const contentDiv = document.getElementById('fileContentViewer');
+                const displayName = toCamelCase(fileData.name);
                 
-                // Update header
-                document.getElementById('fileIconViewer').textContent = getFileIcon(fileData.name);
-                document.getElementById('fileNameViewer').textContent = fileData.name;
-                document.getElementById('githubLinkViewer').href = fileData.html_url;
-                document.getElementById('pageTitle').textContent = `${fileData.name} - MobileByteSensei`;
+                // Update page title
+                document.getElementById('pageTitle').textContent = `${displayName} - MobileByteSensei`;
 
                 // Render content based on file type
                 if (ext === 'md') {
